@@ -1,0 +1,88 @@
+## --- Comando para Build do projeto ----
+
+O comando é utilizado para realizar a compilação do projeto
+`npx rollup -c rollup.config.mjs`
+
+
+## --- Comando para Build do projeto ----
+
+Comando para compilar em typeScript
+`yarn tsc`
+
+
+## --- 1 - Inicio ----
+
+Comando para dar inicio ao processo de criação da biblioteca
+`npm init`
+
+1 - package name: (nome do pacote): O nome do seu pacote ou biblioteca. O nome padrão é geralmente derivado do nome do diretório onde você está executando o comando.
+2 - version: (versão): A versão inicial do seu pacote. O valor padrão é geralmente "1.0.0".
+3 - description: (descrição): Uma breve descrição do seu pacote.
+4 - entry point: (ponto de entrada): O arquivo JavaScript principal do seu pacote. O valor padrão é geralmente "index.js".
+5 - test command: (comando de teste): O comando para executar testes no seu pacote, se aplicável.
+6 - git repository: (repositório git): O URL do repositório Git do seu projeto, se aplicável.
+7 - keywords: (palavras-chave): Palavras-chave que descrevem o seu pacote, separadas por vírgulas.
+8 - author: (autor): O nome do autor do pacote.
+9 - license: (licença): A licença sob a qual o seu pacote será distribuído.
+
+
+## --- 2 - Criação e organização inicial de arquivos ----
+
+Após estes passos, foi dado inicio a estruturação inicial e organização do projeto. 
+Foram criadas pastas como src, que abriga o arquivo de importação e exportação dos componentes e funções da lib, este arquivo se chama index.js. A pasta Components tambem foi somada a pasta src, inicialmente a pasta Components alocava apenas um arquivo para fins de teste nomeado de functions.js
+
+
+## --- 3 - Instalação e configuração para o processo de Build ----
+
+Para realizar o processo de Build do projeto foi instalado o Rollup
+`npm install rollup --save-dev`
+
+O diretorio do projeto recebeu um arquivo de configuração para o Rollup
+rollup.config.mjs
+// rollup.config.js
+import { terser } from 'rollup-plugin-terser';
+
+export default {
+  input: './src/index.js', // O ponto de entrada da sua biblioteca
+  output: {
+    file: 'dist/minha-biblioteca.js', // O arquivo de saída da biblioteca
+    format: 'umd', // Ou outro formato desejado
+    name: 'MinhaBiblioteca', // O nome global da sua biblioteca
+  },
+  plugins: [terser()], // Opcional: minificar o código
+};
+
+O arquivo package.json recebeu mais uma linha para sua configuração. 
+"scripts": {
+  "test": "npm run test",
+  "build": "rollup -c"
+}
+
+O processo de configuração da lib foi tabalhoso e demorado. O chatGPT foi utilizado no auxilio da correção dos diversos erros que foram apresentados no projeto. Graças a esta tecnologia, foi possivel a resolução e compreensão de cada um desses erros de forma rápida e precisa. Estes erros estavam relacionsado a configurações necessárias no package.json, rollup.config.mjs e na instalação das dependencias/versão do Rollup.
+
+
+## --- 4 - Plugin do Rollup para TypeScript  ---
+
+Ocomando abaixo instala um plugin para que o Rollup possa lidar com arquivos 'ts'.
+npm install rollup-plugin-typescript2 --save-dev
+
+
+## --- 5 - Configuração do arquivo de configuração do Rollup  ---
+
+Depois de instalar o plugin é necessário confidurar o arquivo de configuração do Rollup, nesse caso o rollup.config.mjs
+import typescript from 'rollup-plugin-typescript2'          <--- Impport
+export default {
+  input: 'src/index.js', // Seu ponto de entrada pode ser diferente
+  output: {
+    file: 'dist/minha-biblioteca.js',
+    format: 'umd', // Ou o formato desejado
+    name: 'MinhaBiblioteca', // O nome do seu pacote
+  },
+  plugins: [typescript()],          <--- Apenas esta linha
+};
+
+
+## --- 6 - Reconfigurando o tsconfig.json para ser compativel com Rollup
+`"module": "ESNext"`,          <--- Impport
+
+
